@@ -4,7 +4,6 @@ import { useRecoilState } from "recoil";
 
 import { sessionState } from "@/libs/states";
 
-
 export function HelloUserMessage() {
   const [session] = useRecoilState<Session | null>(sessionState);
 
@@ -17,7 +16,7 @@ export function HelloUserMessage() {
             : session?.user.user_metadata["avatar_url"]
         }
       />
-      <Heading fontSize = "6xl">
+      <Heading fontSize="6xl">
         ようこそ {session?.user.user_metadata["name"]} !!
       </Heading>
     </>

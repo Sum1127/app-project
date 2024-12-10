@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
- 
+
 export default function Hello() {
   const [message, setMessage] = useState<string>("");
 
@@ -8,7 +8,7 @@ export default function Hello() {
     async function getMessage() {
       try {
         const url = process.env.NEXT_PUBLIC_API_URL;
-        if(!url) throw new Error();
+        if (!url) throw new Error();
         const res = await axios.get(url);
         setMessage(res.data.message);
       } catch (err) {

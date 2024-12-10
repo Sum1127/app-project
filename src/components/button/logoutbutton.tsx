@@ -3,11 +3,18 @@ import { useRouter } from "next/router";
 
 import supabase from "@/libs/supabase";
 
-export function LogoutButton(){
-    const router =useRouter();
-    return(
-        <>
-            <Button onClick={()=>{supabase.auth.signOut();router.push("/");}}>SignOut</Button>
-        </>
-    )
+export function LogoutButton() {
+  const router = useRouter();
+  return (
+    <>
+      <Button
+        onClick={() => {
+          supabase.auth.signOut();
+          router.push("/");
+        }}
+      >
+        SignOut
+      </Button>
+    </>
+  );
 }

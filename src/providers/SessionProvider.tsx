@@ -12,12 +12,12 @@ type SessionProviderProps = {
 };
 
 export const SessionProvider = ({ children }: SessionProviderProps) => {
-    const router = useRouter();
-    const pathname = usePathname();
-    const [isReady, setIsReady] = useState(false);
-    const [, setSession] = useRecoilState<Session | null>(sessionState);
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isReady, setIsReady] = useState(false);
+  const [, setSession] = useRecoilState<Session | null>(sessionState);
 
-useEffect(() => {
+  useEffect(() => {
     const sessionUpdate = async () => {
       const {
         data: { session },
@@ -53,4 +53,3 @@ useEffect(() => {
   }
   return <>{children}</>;
 };
-
