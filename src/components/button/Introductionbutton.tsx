@@ -1,19 +1,19 @@
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-export function GoHomeButton() {
+export function GoIntroduction() {
   const router = useRouter();
 
   return (
     <>
       <Button
         onClick={() => {
-          router.push("/Home");
+          router.push("/introduction");
         }}
         colorScheme="orange"
         color="White"
       >
-        ホームに行く
+        このサイトについて
       </Button>
     </>
   );

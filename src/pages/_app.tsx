@@ -12,7 +12,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <SessionProvider>
         <ChakraProvider>
           <SiteHeader />
-          <Component {...pageProps} />;
+          <Component {...pageProps} />
           <SiteFooter />
         </ChakraProvider>
       </SessionProvider>

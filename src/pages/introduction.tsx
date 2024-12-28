@@ -1,5 +1,6 @@
 import { Box, Flex, VStack } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
+
 import { SiteSidebarLayout } from "@/components/Sidebar/SiteSidebar";
 import Comments from "@/components/Comments/Comments";
 
@@ -8,7 +9,7 @@ export default function Home() {
     <>
       <Flex direction="column" minHeight="100vh" bg="orange.100">
         <SiteSidebarLayout>
-          <VStack width="50vw" height="30vh" justifyContent="center">
+          <VStack width="50vw" height="25vh" justifyContent="center">
             <Box
               bg="orange.400" // ボックスの背景色
               width="50vw" // 幅を画面の50%
@@ -23,7 +24,7 @@ export default function Home() {
               flex="1"
             >
               <Text color="white" fontSize="xl" as="b">
-                題名
+                このサイトについて
               </Text>
             </Box>
             <Box
@@ -36,11 +37,16 @@ export default function Home() {
               color="black"
               flex="1"
             >
-              <Text>テスト</Text>
+              <Text>
+                このサイトでは、健康にまつわる内容を様々な種類取り扱います。
+                目的に合わせて運動についてまとめたページや、食事メニューについてまとめたページがあります。
+                その日に行った運動や食事などについて各々でメモすることもできます。このサイトを活用することで
+                健康的な体を手に入れることができるようにしたいと思っています。
+              </Text>
             </Box>
           </VStack>
         </SiteSidebarLayout>
-        <Comments articleId={2} />
+        <Comments articleId={1} />
       </Flex>
     </>
   );
