@@ -7,23 +7,23 @@ import { LogoutButton } from "../button/logoutbutton";
 export const SiteHeader = () => {
   return (
     <>
-      <HStack spacing={10}>
-        <Box
-          as="header"
-          bg="lightgreen"
-          w="100%"
-          p={6}
-          borderRadius="md"
-          boxShadow="md"
-        >
+      <Box
+        as="header"
+        bg="lightgreen"
+        w="100%"
+        p={6}
+        borderRadius="md"
+        boxShadow="md"
+      >
+        <HStack spacing={4}>
           <Text color="orange.400" fontSize="3xl" as="b">
-            健康まとめサイト　　
+            健康まとめサイト
           </Text>
           <GoHomeButton />
           <GoIntroduction />
           <LogoutButton />
-        </Box>
-      </HStack>
+        </HStack>
+      </Box>
     </>
   );
 };

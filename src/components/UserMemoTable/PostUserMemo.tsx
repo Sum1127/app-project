@@ -1,22 +1,4 @@
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  NumberDecrementStepper,
-  NumberIncrementStepper,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, FormLabel, Input } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
 import axios from "axios";
 import { useState } from "react";
@@ -39,14 +21,19 @@ export function PostUserMemo({ usermemo, setUsermemo }: Props) {
 
   async function PostUsermemo() {
     try {
-      const url = "http://127.0.0.1:8000/usermemo";
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/usermemo`;
       const config = {
         headers: {
           // FIXME: Need to use 〇〇〇
           Authorization: `Bearer ${session?.user.id}`,
         },
       };
-      const data = { id: id, title: title, content: content };
+
+      const data = {
+        id: id,
+        title: title,
+        content: content,
+      };
       const res = await axios.post(url, data, config);
       if (res.status !== 200) {
         throw new Error("Failed to post item");
@@ -63,7 +50,7 @@ export function PostUserMemo({ usermemo, setUsermemo }: Props) {
       <Input
         value={title}
         onChange={(e) => setTitle(e.target.value)}
-        placeholder="Name"
+        placeholder="Title"
       />
       <FormLabel>Content</FormLabel>
       <Input

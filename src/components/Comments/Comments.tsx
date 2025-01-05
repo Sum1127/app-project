@@ -17,10 +17,12 @@ interface Comment {
 }
 
 interface CommentsProps {
+  height?: string;
+  width?: string;
   articleId: number; // 記事ごとのID
 }
 
-const Comments: React.FC<CommentsProps> = ({ articleId }) => {
+const Comments: React.FC<CommentsProps> = ({ height, width, articleId }) => {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
 
@@ -41,7 +43,6 @@ const Comments: React.FC<CommentsProps> = ({ articleId }) => {
       .insert([{ article_id: articleId, content: newComment }]);
     if (error) console.error("Error adding comment:", error);
     setNewComment("");
-    fetchComments();
   };
 
   useEffect(() => {
@@ -73,11 +74,17 @@ const Comments: React.FC<CommentsProps> = ({ articleId }) => {
   }, [articleId]);
 
   return (
-    <Box p={4} borderWidth="1px" borderRadius="lg">
+    <Box
+      p={4}
+      borderWidth="1px"
+      borderRadius="lg"
+      width={width}
+      height={height}
+    >
       <Text fontSize="lg" fontWeight="bold" mb={2}>
         コメント
       </Text>
-      <VStack spacing={4} align="stretch" maxH="400px" overflowY="auto">
+      <VStack spacing={2} align="stretch" maxH="60%" overflowY="scroll">
         {comments.map((comment) => (
           <Box key={comment.id} p={2} bg="gray.100" borderRadius="md">
             <Text fontSize="sm">{comment.content}</Text>
@@ -87,8 +94,7 @@ const Comments: React.FC<CommentsProps> = ({ articleId }) => {
           </Box>
         ))}
       </VStack>
-      <Divider my={4} />
-      <HStack>
+      <HStack height="30%">
         <Input
           placeholder="コメントを入力..."
           value={newComment}

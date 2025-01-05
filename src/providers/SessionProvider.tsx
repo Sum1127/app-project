@@ -23,6 +23,7 @@ export const SessionProvider = ({ children }: SessionProviderProps) => {
         data: { session },
         error,
       } = await supabase.auth.getSession();
+      console.log(session);
       if (error) {
         console.error(error);
         setIsReady(false);

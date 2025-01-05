@@ -12,8 +12,12 @@ import {
   TagLabel,
   useToast,
 } from "@chakra-ui/react";
+import { useRecoilState } from "recoil";
+import { sessionState } from "@/libs/states";
+import { Session } from "@supabase/supabase-js";
 
 const CreateArticle = () => {
+  const [session] = useRecoilState<Session | null>(sessionState);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [tagInput, setTagInput] = useState("");
@@ -44,17 +48,32 @@ const CreateArticle = () => {
     }
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/createarticles", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          content,
-          tags,
-        }),
-      });
+      const user_name: string =
+        session?.user.user_metadata["name"] ?? "unknown";
+      const user_avatar: string =
+        session?.user.user_metadata["picture"] ??
+        session?.user.user_metadata["avatar_url"] ??
+        "";
+      const user_email: string =
+        session?.user.user_metadata["email"] ?? "unknown";
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/createarticles`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title,
+            content,
+            tags,
+            user_name,
+            user_avatar,
+            user_email,
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("記事の作成に失敗しました。");

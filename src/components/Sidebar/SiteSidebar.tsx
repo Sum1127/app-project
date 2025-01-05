@@ -1,5 +1,8 @@
 import React, { ReactNode } from "react";
-import { Box, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, VStack } from "@chakra-ui/react";
+import { GoArticleButton } from "../button/articlebutton";
+import { GoUserMemoButton } from "../button/usermemobutton";
+import { GoCreateArticleButton } from "../button/createarticlebutton";
 
 interface SiteSidebarLayoutProps {
   children: ReactNode;
@@ -19,12 +22,11 @@ export const SiteSidebarLayout: React.FC<SiteSidebarLayoutProps> = ({
         padding="4"
         boxShadow="md"
       >
-        <Text fontSize="lg" fontWeight="bold" mb="4">
-          左サイドバー
-        </Text>
-        <Text>リンク1</Text>
-        <Text>リンク2</Text>
-        <Text>リンク3</Text>
+        <VStack spacing={4}>
+          <GoArticleButton />
+          <GoUserMemoButton />
+          <GoCreateArticleButton />
+        </VStack>
       </Box>
 
       {/* メインコンテンツ */}
@@ -32,7 +34,7 @@ export const SiteSidebarLayout: React.FC<SiteSidebarLayoutProps> = ({
         {children}
       </Box>
 
-      {/* 右サイドバー */}
+      {/* 右サイドバー
       <Box
         as="aside"
         width={{ base: "20%", md: "30%" }}
@@ -47,7 +49,7 @@ export const SiteSidebarLayout: React.FC<SiteSidebarLayoutProps> = ({
         <Text>リンク1</Text>
         <Text>リンク2</Text>
         <Text>リンク3</Text>
-      </Box>
+      </Box> */}
     </Flex>
   );
 };

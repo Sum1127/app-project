@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Usermemo } from "@/types/Usermemo";
-import { Box, Input, Button } from "@chakra-ui/react";
+import { Box, Input, Button, HStack } from "@chakra-ui/react";
 import { sessionState } from "@/libs/states";
 import { useRecoilState } from "recoil";
 import { Session } from "@supabase/supabase-js";
@@ -16,7 +16,7 @@ export default function MemoSearchbar({ setUsermemo }: MemoSearchbarProps) {
 
   async function MemoSearch() {
     try {
-      const url = "http://127.0.0.1:8000/usermemo";
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/usermemo`;
       const config = {
         headers: {
           // FIXME: Need to use 〇〇〇
@@ -40,14 +40,14 @@ export default function MemoSearchbar({ setUsermemo }: MemoSearchbarProps) {
 
   return (
     <>
-      <Box>
+      <HStack>
         <Input
           value={searchMemoKeyword}
           onChange={(e) => setsearchMemoKeyword(e.target.value)}
           placeholder="searchMemoKeyword"
-        ></Input>
+        />
         <Button onClick={MemoSearch}>検索</Button>
-      </Box>
+      </HStack>
     </>
   );
 }

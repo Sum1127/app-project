@@ -13,9 +13,11 @@ import {
   Flex,
 } from "@chakra-ui/react";
 import Searchbar from "@/components/Searchbar/Searchbar";
+import { useRouter } from "next/router";
 
 export default function Articles() {
   const [articles, setArticles] = useState<Article[]>([]);
+  const router = useRouter();
 
   async function getArticle() {
     try {
@@ -34,13 +36,12 @@ export default function Articles() {
   return (
     <>
       <Flex direction="column" minHeight="100vh" bg="orange.100">
-        <Searchbar setArticles={setArticles} />
-        <Button onClick={getArticle}>記事を見る</Button>
-        <VStack width="100vw" height="100vh" justifyContent="center">
+        <VStack width="100vw" height="100%" justifyContent="center">
+          <Searchbar setArticles={setArticles} height="10%" width="60%" />
           <Box
             bg="orange.100" // ボックスの背景色
-            width="50vw" // 幅を画面の50%
-            height="30vh"
+            width="60%" // 幅を画面の60%
+            height="90%"
             display="flex"
             justifyContent="center"
             alignItems="center"
@@ -61,6 +62,17 @@ export default function Articles() {
                     <Tr key={res.id}>
                       <Td>{res.title}</Td>
                       <Td>{res.tags}</Td>
+                      <Td>
+                        <Button
+                          onClick={() => {
+                            router.push(`/showarticles?id=${res.id}`); // id をクエリとして渡す
+                          }}
+                          colorScheme="orange"
+                          color="White"
+                        >
+                          記事を閲覧する
+                        </Button>
+                      </Td>
                     </Tr>
                   ))}
                 </Tbody>
