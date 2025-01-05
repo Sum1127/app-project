@@ -70,7 +70,7 @@ export const MemoSidebarLayout: React.FC<MemoSidebarLayoutProps> = ({
         boxShadow="md"
       >
         {dates.map((date) => (
-          <Box onClick={GetDateMemo.bind(null, date)}>
+          <Box key={date} onClick={GetDateMemo.bind(null, date)}>
             <Text fontSize="md" fontWeight="bold" mb="4">
               {convertISOtoDate(date)}
             </Text>
