@@ -1,4 +1,4 @@
-import { Button, FormLabel, Input } from "@chakra-ui/react";
+import { Button, FormLabel, Input, Textarea } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
 import axios from "axios";
 import { useState } from "react";
@@ -18,9 +18,11 @@ export function PostUserMemo({ usermemo, setUsermemo }: Props) {
   const [id, setID] = useState(1);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isLoading, setisLoading] = useState(false);
 
-  async function PostUsermemo() {
+  async function postusermemo() {
     try {
+      setisLoading(true);
       const url = `${process.env.NEXT_PUBLIC_API_URL}/usermemo`;
       const config = {
         headers: {
@@ -41,25 +43,40 @@ export function PostUserMemo({ usermemo, setUsermemo }: Props) {
       setUsermemo([...usermemo, res.data as Usermemo]);
     } catch (err) {
       console.error(err);
+    } finally {
+      setisLoading(false);
     }
   }
 
   return (
     <>
       <FormLabel>Title</FormLabel>
-      <Input
+      <Textarea
+        whiteSpace="pre-line"
+        resize="none"
         value={title}
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Title"
       />
       <FormLabel>Content</FormLabel>
-      <Input
+      <Textarea
+        whiteSpace="pre-line"
+        resize="none"
         value={content}
         onChange={(e) => setContent(e.target.value)}
         placeholder="Content"
-      ></Input>
+      ></Textarea>
 
-      <Button onClick={PostUsermemo}>Save</Button>
+      <Button
+        isLoading={isLoading}
+        loadingText="保存中…"
+        colorScheme="green"
+        color="white"
+        alignSelf="flex-end"
+        onClick={postusermemo}
+      >
+        保存する
+      </Button>
     </>
   );
 }

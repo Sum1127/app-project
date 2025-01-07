@@ -1,4 +1,4 @@
-import { Button } from "@chakra-ui/react";
+import { Button, HStack } from "@chakra-ui/react";
 import supabase from "@/libs/supabase";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub, FaDiscord } from "react-icons/fa";
@@ -36,15 +36,17 @@ export function LoginButton() {
 
   return (
     <>
-      <Button onClick={getgithub} width="50%">
-        <FaGithub />
-      </Button>
-      <Button onClick={getdiscord} width="50%">
-        <FaDiscord />
-      </Button>
-      <Button onClick={getGoogle} width="50%">
-        <FcGoogle />
-      </Button>
+      <HStack spacing={4}>
+        <Button onClick={getgithub} width="30%">
+          <FaGithub />
+        </Button>
+        <Button onClick={getdiscord} width="30%">
+          <FaDiscord />
+        </Button>
+        <Button onClick={getGoogle} width="30%">
+          <FcGoogle />
+        </Button>
+      </HStack>
     </>
   );
 }

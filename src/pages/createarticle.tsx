@@ -11,6 +11,7 @@ import {
   TagCloseButton,
   TagLabel,
   useToast,
+  Flex,
 } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { sessionState } from "@/libs/states";
@@ -102,41 +103,45 @@ const CreateArticle = () => {
   };
 
   return (
-    <Box p={8} maxW="600px" mx="auto">
-      <Heading mb={6}>記事作成</Heading>
-      <VStack spacing={4}>
-        <Input
-          placeholder="記事タイトル"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-        <Textarea
-          placeholder="記事のメインコンテンツ"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          rows={6}
-        />
-        <HStack>
-          <Input
-            placeholder="タグを追加"
-            value={tagInput}
-            onChange={(e) => setTagInput(e.target.value)}
-          />
-          <Button onClick={handleAddTag}>追加</Button>
-        </HStack>
-        <HStack wrap="wrap">
-          {tags.map((tag) => (
-            <Tag key={tag} colorScheme="blue" m={1}>
-              <TagLabel>{tag}</TagLabel>
-              <TagCloseButton onClick={() => handleRemoveTag(tag)} />
-            </Tag>
-          ))}
-        </HStack>
-        <Button colorScheme="teal" w="100%" onClick={handleSubmit}>
-          作成
-        </Button>
-      </VStack>
-    </Box>
+    <>
+      <Flex direction="column" minHeight="100vh" bg="orange.100">
+        <Box p={8} maxW="600px" mx="auto">
+          <Heading mb={6}>記事作成</Heading>
+          <VStack spacing={4}>
+            <Input
+              placeholder="記事タイトル"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+            <Textarea
+              placeholder="記事のメインコンテンツ"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              rows={6}
+            />
+            <HStack>
+              <Input
+                placeholder="タグを追加"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+              />
+              <Button onClick={handleAddTag}>追加</Button>
+            </HStack>
+            <HStack wrap="wrap">
+              {tags.map((tag) => (
+                <Tag key={tag} colorScheme="blue" m={1}>
+                  <TagLabel>{tag}</TagLabel>
+                  <TagCloseButton onClick={() => handleRemoveTag(tag)} />
+                </Tag>
+              ))}
+            </HStack>
+            <Button colorScheme="teal" w="100%" onClick={handleSubmit}>
+              作成
+            </Button>
+          </VStack>
+        </Box>
+      </Flex>
+    </>
   );
 };
 

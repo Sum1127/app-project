@@ -12,8 +12,10 @@ export function LogoutButton() {
           supabase.auth.signOut();
           router.push("/");
         }}
+        colorScheme="orange"
+        color="White"
       >
-        SignOut
+        ログアウト
       </Button>
     </>
   );

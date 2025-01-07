@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Next App</title>
+        <title>健康まとめサイト</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Center h="100vh">

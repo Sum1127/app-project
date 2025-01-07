@@ -84,7 +84,7 @@ const Comments: React.FC<CommentsProps> = ({ height, width, articleId }) => {
       <Text fontSize="lg" fontWeight="bold" mb={2}>
         コメント
       </Text>
-      <VStack spacing={2} align="stretch" maxH="60%" overflowY="scroll">
+      <VStack spacing={2} align="stretch" maxH="60%" overflowY="auto">
         {comments.map((comment) => (
           <Box key={comment.id} p={2} bg="gray.100" borderRadius="md">
             <Text fontSize="sm">{comment.content}</Text>

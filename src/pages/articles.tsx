@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react";
 import Searchbar from "@/components/Searchbar/Searchbar";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function Articles() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -35,6 +36,9 @@ export default function Articles() {
 
   return (
     <>
+      <Head>
+        <title>記事一覧</title>
+      </Head>
       <Flex direction="column" minHeight="100vh" bg="orange.100">
         <VStack width="100vw" height="100%" justifyContent="center">
           <Searchbar setArticles={setArticles} height="10%" width="60%" />

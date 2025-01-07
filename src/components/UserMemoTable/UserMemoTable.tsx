@@ -7,14 +7,25 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
   VStack,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Box,
+  Text,
 } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import { Session } from "@supabase/supabase-js";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
-
+import { FaRegEdit } from "react-icons/fa";
+import { FaRegTrashCan } from "react-icons/fa6";
 import { sessionState } from "@/libs/states";
 import { Usermemo } from "@/types/Usermemo";
 import { useRouter } from "next/router";
@@ -27,6 +38,8 @@ interface Props {
 export function UserMemoTable(props: Props) {
   const router = useRouter();
   const [session] = useRecoilState<Session | null>(sessionState);
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedIdx, setselectedIdx] = useState(0);
 
   async function Getmemo() {
     try {
@@ -70,6 +83,11 @@ export function UserMemoTable(props: Props) {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  function onRowClick(idx: number) {
+    setselectedIdx(idx);
+    onOpen();
   }
 
   // async function memoPut(id: number) {
@@ -121,7 +139,7 @@ export function UserMemoTable(props: Props) {
     <>
       <VStack>
         <TableContainer>
-          <Table variant="simple">
+          <Table variant="simple" layout="fixed">
             <Thead>
               <Tr>
                 <Th>Title</Th>
@@ -131,10 +149,14 @@ export function UserMemoTable(props: Props) {
               </Tr>
             </Thead>
             <Tbody>
-              {props.usermemo.map((res) => (
-                <Tr key={res.id}>
-                  <Td>{res.title}</Td>
-                  <Td>{res.content}</Td>
+              {props.usermemo.map((res, idx) => (
+                <Tr key={res.id} onClick={() => onRowClick(idx)}>
+                  <Td isTruncated maxWidth={0} overflowX="hidden">
+                    {res.title}
+                  </Td>
+                  <Td isTruncated maxWidth={0} overflowX="hidden">
+                    {res.content}
+                  </Td>
                   <Td onClick={GetDateMemo.bind(null, res.created_at)}>
                     {convertISOtoDate(res.created_at)}
                   </Td>
@@ -143,13 +165,19 @@ export function UserMemoTable(props: Props) {
                       onClick={() => {
                         router.push(`editusermemo?id=${res.id}`);
                       }}
+                      leftIcon={<FaRegEdit />}
+                      colorScheme="green"
                     >
                       編集
                     </Button>
                   </Td>
                   <Td>
-                    <Button onClick={memoDelete.bind(null, res.id)}>
-                      Delete
+                    <Button
+                      onClick={memoDelete.bind(null, res.id)}
+                      colorScheme="red"
+                      leftIcon={<FaRegTrashCan />}
+                    >
+                      削除
                     </Button>
                   </Td>
                 </Tr>
@@ -158,6 +186,29 @@ export function UserMemoTable(props: Props) {
           </Table>
         </TableContainer>
       </VStack>
+      <Modal isOpen={isOpen} onClose={onClose} size="xl">
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            {props.usermemo.length === 0
+              ? ""
+              : props.usermemo[selectedIdx].title}
+          </ModalHeader>
+          <ModalBody maxH={300} overflowY="auto">
+            <Box whiteSpace="pre-line">
+              {props.usermemo.length === 0
+                ? ""
+                : props.usermemo[selectedIdx].content}
+            </Box>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              閉じる
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 }

@@ -2,14 +2,17 @@ import { Box, Flex, VStack } from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 
 import { SiteSidebarLayout } from "@/components/Sidebar/SiteSidebar";
-import Comments from "@/components/Comments/Comments";
+import Head from "next/head";
 
 export default function Home() {
   return (
     <>
+      <Head>
+        <title>このサイトについて</title>
+      </Head>
       <Flex direction="column" minHeight="100vh" bg="orange.100">
         <SiteSidebarLayout>
-          <VStack width="50vw" height="25vh" justifyContent="center">
+          <VStack width="70vw" height="25vh" justifyContent="center">
             <Box
               bg="orange.400" // ボックスの背景色
               width="50vw" // 幅を画面の50%
@@ -46,7 +49,6 @@ export default function Home() {
             </Box>
           </VStack>
         </SiteSidebarLayout>
-        <Comments articleId={1} />
       </Flex>
     </>
   );

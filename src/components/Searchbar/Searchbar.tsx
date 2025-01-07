@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { Article } from "@/types/Articles";
 import { Box, Input, Button, HStack } from "@chakra-ui/react";
+import { FaSearch } from "react-icons/fa";
 
 interface SearchbarProps {
   height?: string;
@@ -15,9 +16,11 @@ export default function Searchbar({
   setArticles,
 }: SearchbarProps) {
   const [searchKeyword, setSearchKeyword] = useState(""); // 検索キーワード
+  const [isLoading, setisLoading] = useState(false);
 
   async function Search() {
     try {
+      setisLoading(true);
       const url = `${process.env.NEXT_PUBLIC_API_URL}/articles`;
       if (searchKeyword === "") {
         const res = await axios.get(url);
@@ -28,6 +31,8 @@ export default function Searchbar({
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setisLoading(false);
     }
   }
 
@@ -39,7 +44,14 @@ export default function Searchbar({
           onChange={(e) => setSearchKeyword(e.target.value)}
           placeholder="searchKeyword"
         />
-        <Button onClick={Search}>検索</Button>
+        <Button
+          isLoading={isLoading}
+          colorScheme="green"
+          leftIcon={<FaSearch />}
+          onClick={Search}
+        >
+          検索
+        </Button>
       </HStack>
     </Box>
   );

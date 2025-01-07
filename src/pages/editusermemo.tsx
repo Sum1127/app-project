@@ -5,6 +5,7 @@ import { sessionState } from "@/libs/states";
 import { Input, FormLabel, Button, Flex } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function EditUserMemo() {
   const router = useRouter();
@@ -13,9 +14,11 @@ export default function EditUserMemo() {
   const [session] = useRecoilState<Session | null>(sessionState);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
+  const [isLoading, setisLoading] = useState(false);
 
   async function memoGet() {
     try {
+      setisLoading(true);
       const url = `${process.env.NEXT_PUBLIC_API_URL}/usermemo/${id}`;
       const config = {
         headers: {
@@ -27,6 +30,8 @@ export default function EditUserMemo() {
       setContent(res.data.content);
     } catch (err) {
       console.error(err);
+    } finally {
+      setisLoading(false);
     }
   }
 
@@ -56,6 +61,9 @@ export default function EditUserMemo() {
 
   return (
     <>
+      <Head>
+        <title>メモ編集</title>
+      </Head>
       <Flex direction="column" minHeight="100vh" bg="orange.100">
         <FormLabel>Title</FormLabel>
         <Input
@@ -69,7 +77,15 @@ export default function EditUserMemo() {
           onChange={(e) => setContent(e.target.value)}
           placeholder="Content"
         ></Input>
-        <Button width="10vw" alignSelf="flex-end" onClick={memoPut}>
+        <Button
+          isLoading={isLoading}
+          loadingText="更新中…"
+          colorScheme="green"
+          color="white"
+          width="10vw"
+          alignSelf="flex-end"
+          onClick={memoPut}
+        >
           更新
         </Button>
       </Flex>

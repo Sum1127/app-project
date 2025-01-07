@@ -7,6 +7,7 @@ export function GoUserMemoButton() {
   return (
     <>
       <Button
+        width="20vw"
         onClick={() => {
           router.push("/usermemo");
         }}

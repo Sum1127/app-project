@@ -4,6 +4,7 @@ import axios from "axios";
 import { Article } from "@/types/Articles";
 import { Box, Flex, VStack, Text, HStack, Avatar } from "@chakra-ui/react";
 import Comments from "@/components/Comments/Comments";
+import Head from "next/head";
 
 export default function ShowArticles() {
   const router = useRouter();
@@ -59,41 +60,52 @@ export default function ShowArticles() {
   }
 
   return (
-    <VStack width="100%" height="120vh" justifyContent="center" bg="orange.100">
-      <HStack alignSelf={"flex-start"}>
-        <Avatar size={"sm"} src={article.user_avatar} />
-        <Text>
-          {article.user_name} : {article.user_email}
-        </Text>
-      </HStack>
-      <Box
-        bg="orange.400"
-        width="60%"
-        height="5%"
-        display="flex"
+    <>
+      <Head>
+        <title>{article.title}</title>
+      </Head>
+      <VStack
+        width="100%"
+        height="120vh"
         justifyContent="center"
-        alignItems="center"
-        textAlign="center"
-        borderRadius="md"
-        boxShadow="md"
+        bg="orange.100"
       >
-        <Text fontSize="xl" as="b">
-          {article.title}
+        <HStack alignSelf={"flex-start"}>
+          <Avatar size={"sm"} src={article.user_avatar} />
+          <Text>
+            {article.user_name} : {article.user_email}
+          </Text>
+        </HStack>
+        <Box
+          bg="orange.400"
+          width="60%"
+          height="5%"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          textAlign="center"
+          borderRadius="md"
+          color="white"
+          boxShadow="md"
+        >
+          <Text fontSize="xl" as="b">
+            {article.title}
+          </Text>
+        </Box>
+        <Text
+          whiteSpace="pre-line"
+          width="60%"
+          height="60%"
+          overflowY="auto"
+          px={4}
+          border="1px solid"
+          borderColor="gray.300"
+          borderRadius="md"
+        >
+          {article.content}
         </Text>
-      </Box>
-      <Text
-        whiteSpace="pre-line"
-        width="60%"
-        height="60%"
-        overflowY="scroll"
-        px={4}
-        border="1px solid"
-        borderColor="gray.300"
-        borderRadius="md"
-      >
-        {article.content}
-      </Text>
-      <Comments articleId={article.id} height="30%" width="60%" />
-    </VStack>
+        <Comments articleId={article.id} height="30%" width="60%" />
+      </VStack>
+    </>
   );
 }

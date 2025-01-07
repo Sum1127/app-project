@@ -15,9 +15,7 @@ export const SiteFooter = () => {
         padding="8"
         width="100%"
       >
-        <Text fontSize="sm">
-          &copy; 2024 Your Company. All rights reserved.
-        </Text>
+        <Text fontSize="sm">&copy; 2024-2025 Sum Kenkou Corporation</Text>
       </Box>
     </Flex>
   );
