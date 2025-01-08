@@ -42,7 +42,9 @@ export default function Home() {
               <Text>
                 更新情報
                 <br />
-                記事を３つ更新しました
+                記事:美味しくダイエット「無水カレー」
+                <br />
+                記事:効率のいい運動をしよう
               </Text>
             </Box>
           </VStack>
