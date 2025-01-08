@@ -49,7 +49,7 @@ export default function MemoSearchbar({ setUsermemo }: MemoSearchbarProps) {
         <Input
           value={searchMemoKeyword}
           onChange={(e) => setsearchMemoKeyword(e.target.value)}
-          placeholder="searchMemoKeyword"
+          placeholder="メモタイトル検索"
         />
         <Button
           isLoading={isLoading}

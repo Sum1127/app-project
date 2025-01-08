@@ -42,7 +42,7 @@ export default function Searchbar({
         <Input
           value={searchKeyword}
           onChange={(e) => setSearchKeyword(e.target.value)}
-          placeholder="searchKeyword"
+          placeholder="タイトル検索"
         />
         <Button
           isLoading={isLoading}
