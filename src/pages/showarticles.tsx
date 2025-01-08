@@ -38,7 +38,7 @@ export default function ShowArticles() {
         bg="orange.100"
       >
         <Text fontSize="xl" color="orange.600">
-          Loading...
+          読み込み中
         </Text>
       </Flex>
     );
@@ -53,7 +53,7 @@ export default function ShowArticles() {
         bg="orange.100"
       >
         <Text fontSize="xl" color="orange.600">
-          Article not found.
+          記事が見つかりませんでした。
         </Text>
       </Flex>
     );
