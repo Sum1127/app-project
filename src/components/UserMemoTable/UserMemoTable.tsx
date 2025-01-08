@@ -150,14 +150,24 @@ export function UserMemoTable(props: Props) {
             </Thead>
             <Tbody>
               {props.usermemo.map((res, idx) => (
-                <Tr key={res.id} onClick={() => onRowClick(idx)}>
-                  <Td isTruncated maxWidth={0} overflowX="hidden">
+                <Tr key={res.id}>
+                  <Td
+                    isTruncated
+                    maxWidth={0}
+                    overflowX="hidden"
+                    onClick={() => onRowClick(idx)}
+                  >
                     {res.title}
                   </Td>
-                  <Td isTruncated maxWidth={0} overflowX="hidden">
+                  <Td
+                    isTruncated
+                    maxWidth={0}
+                    overflowX="hidden"
+                    onClick={() => onRowClick(idx)}
+                  >
                     {res.content}
                   </Td>
-                  <Td onClick={GetDateMemo.bind(null, res.created_at)}>
+                  <Td onClick={() => onRowClick(idx)}>
                     {convertISOtoDate(res.created_at)}
                   </Td>
                   <Td>
