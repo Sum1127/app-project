@@ -6,14 +6,17 @@ import { SessionProvider } from "@/providers/SessionProvider";
 import { SiteHeader } from "@/components/Header/SiteHeader";
 import { SiteFooter } from "@/components/Footer/SiteFooter";
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({ Component, pageProps, router }: AppProps) {
+  const noHeadernoFooter = ["/"];
+  const showHeaderFooter = !noHeadernoFooter.includes(router.pathname);
+
   return (
     <RecoilRoot>
       <SessionProvider>
         <ChakraProvider>
-          <SiteHeader />
+          <SiteHeader showHeaderFooter={showHeaderFooter} />
           <Component {...pageProps} />
-          <SiteFooter />
+          <SiteFooter showHeaderFooter={showHeaderFooter} />
         </ChakraProvider>
       </SessionProvider>
     </RecoilRoot>

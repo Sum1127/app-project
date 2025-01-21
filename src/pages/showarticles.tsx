@@ -2,15 +2,92 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Article } from "@/types/Articles";
-import { Box, Flex, VStack, Text, HStack, Avatar } from "@chakra-ui/react";
+import { FaRegStar } from "react-icons/fa";
+import {
+  Box,
+  Flex,
+  VStack,
+  Text,
+  HStack,
+  Avatar,
+  ComponentDefaultProps,
+  UnorderedList,
+  ListItem,
+  OrderedList,
+  Button,
+} from "@chakra-ui/react";
+import { Session } from "@supabase/supabase-js";
+import { useRecoilState } from "recoil";
+import { sessionState } from "@/libs/states";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import ChakraUIRenderer from "chakra-ui-markdown-renderer";
 import Comments from "@/components/Comments/Comments";
 import Head from "next/head";
+import { BookMark } from "@/types/BookMark";
 
-export default function ShowArticles() {
+interface BookMarkProps {
+  bookmark: BookMark[];
+  setBookMark: (bookmark: BookMark[]) => void;
+}
+
+export default function ShowArticles({ bookmark, setBookMark }: BookMarkProps) {
   const router = useRouter();
   const { id } = router.query; // URLのクエリパラメータからIDを取得
   const [article, setArticle] = useState<Article | null>(null); // 記事データを管理
   const [isLoading, setIsLoading] = useState<boolean>(true); // ローディング状態を管理
+  const [session] = useRecoilState<Session | null>(sessionState);
+
+  async function postArticle(article_id: number) {
+    try {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}/mypage/bookmark/${article_id}`;
+      const config = {
+        headers: {
+          // FIXME: Need to use 〇〇〇
+          Authorization: `Bearer ${session?.user.id}`,
+        },
+      };
+      const data = {
+        article_id: id,
+      };
+      const res = await axios.post(url, data, config);
+      setBookMark([...bookmark, res.data as BookMark]);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  const newTheme = {
+    p: (props: ComponentDefaultProps) => {
+      const { children } = props;
+      return (
+        <Text
+          // whiteSpace="pre-line"
+          // width="60%"
+          // height="60%"
+          // overflowY="auto"
+          px={4}
+          // border="1px solid"
+          // borderColor="gray.300"
+          // borderRadius="md"
+        >
+          {children}
+        </Text>
+      );
+    },
+    ul: (props: ComponentDefaultProps) => {
+      const { children } = props;
+      return <UnorderedList>{children}</UnorderedList>;
+    },
+    ol: (props: ComponentDefaultProps) => {
+      const { children } = props;
+      return <OrderedList>{children}</OrderedList>;
+    },
+    li: (props: ComponentDefaultProps) => {
+      const { children } = props;
+      return <ListItem>{children}</ListItem>;
+    },
+  };
 
   useEffect(() => {
     async function fetchArticle() {
@@ -92,7 +169,25 @@ export default function ShowArticles() {
             {article.title}
           </Text>
         </Box>
-        <Text
+        <Box
+          whiteSpace="pre-line"
+          width="60%"
+          height="60%"
+          overflowY="auto"
+          px={4}
+          border="1px solid"
+          borderColor="gray.300"
+          borderRadius="md"
+        >
+          <ReactMarkdown
+            remarkPlugins={[[remarkGfm]]}
+            components={ChakraUIRenderer(newTheme)}
+            children={article.content}
+            skipHtml
+          />
+        </Box>
+        ;
+        {/* <Text
           whiteSpace="pre-line"
           width="60%"
           height="60%"
@@ -103,8 +198,17 @@ export default function ShowArticles() {
           borderRadius="md"
         >
           {article.content}
-        </Text>
+        </Text> */}
         <Comments articleId={article.id} height="30%" width="60%" />
+        <Button
+          colorScheme="green"
+          color="white"
+          leftIcon={<FaRegStar />}
+          onClick={() => postArticle(article.id)}
+          alignSelf="flex-end"
+        >
+          お気に入り登録
+        </Button>
       </VStack>
     </>
   );

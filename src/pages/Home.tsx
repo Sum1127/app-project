@@ -1,9 +1,45 @@
-import { Box, Flex, VStack } from "@chakra-ui/react";
+import { TableContainer, Box, VStack, Avatar } from "@chakra-ui/react";
+import {
+  Th,
+  Tr,
+  Thead,
+  Table,
+  Tbody,
+  Td,
+  Button,
+  Flex,
+  Tag,
+  TagLabel,
+} from "@chakra-ui/react";
 import { Text } from "@chakra-ui/react";
 import { SiteSidebarLayout } from "@/components/Sidebar/SiteSidebar";
 import Head from "next/head";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { Article } from "@/types/Articles";
+import { useRouter } from "next/router";
 
 export default function Home() {
+  const [homearticle, sethomeArticle] = useState<Article[]>([]);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(true); // ローディング状態を管理
+
+  async function getArticle() {
+    try {
+      const url = process.env.NEXT_PUBLIC_API_URL + "/articles";
+      const res = await axios.get(url);
+      sethomeArticle(res.data);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getArticle();
+  }, []);
+
   return (
     <>
       <Head>
@@ -11,11 +47,11 @@ export default function Home() {
       </Head>
       <Flex direction="column" minHeight="100vh" bg="orange.100">
         <SiteSidebarLayout>
-          <VStack width="70vw" height="30vh" justifyContent="center">
+          <VStack width="70vw" justifyContent="center">
             <Box
               bg="orange.400" // ボックスの背景色
-              width="50vw" // 幅を画面の50%
-              height="30vh"
+              width="60vw" // 幅を画面の50%
+              height="80%"
               display="flex"
               justifyContent="center"
               alignItems="center"
@@ -26,27 +62,42 @@ export default function Home() {
               flex="1"
             >
               <Text color="white" fontSize="xl" as="b">
-                ホーム
-              </Text>
-            </Box>
-            <Box
-              as="main"
-              width="50vw" // 幅を画面の50%
-              height="35vh"
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              color="black"
-              flex="1"
-            >
-              <Text>
                 更新情報
-                <br />
-                記事:美味しくダイエット「無水カレー」
-                <br />
-                記事:効率のいい運動をしよう
               </Text>
             </Box>
+            <TableContainer>
+              <Table>
+                <Thead>
+                  <Tr>
+                    <Th>著者</Th>
+                    <Th>記事タイトル</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {homearticle.map((res) => (
+                    <Tr key={res.id}>
+                      <Avatar src={res.user_avatar}></Avatar>
+                      <Text>
+                        {res.user_name} : {res.user_email}
+                      </Text>
+                      <Td
+                        onClick={() => {
+                          router.push(`/showarticles?id=${res.id}`); // id をクエリとして渡す
+                        }}
+                      >
+                        {res.title}
+                        <br />
+                        {res.tags.map((tag) => (
+                          <Tag>
+                            <TagLabel>{tag}</TagLabel>
+                          </Tag>
+                        ))}
+                      </Td>
+                    </Tr>
+                  ))}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </VStack>
         </SiteSidebarLayout>
       </Flex>

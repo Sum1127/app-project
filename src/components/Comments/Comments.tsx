@@ -89,7 +89,7 @@ const Comments: React.FC<CommentsProps> = ({ height, width, articleId }) => {
           <Box key={comment.id} p={2} bg="gray.100" borderRadius="md">
             <Text fontSize="sm">{comment.content}</Text>
             <Text fontSize="xs" color="gray.500">
-              {new Date(comment.created_at).toLocaleString()}
+              {convertISOtoDate(comment.created_at)}
             </Text>
           </Box>
         ))}
@@ -107,5 +107,10 @@ const Comments: React.FC<CommentsProps> = ({ height, width, articleId }) => {
     </Box>
   );
 };
+
+function convertISOtoDate(date: string) {
+  const d = new Date(date);
+  return d.toLocaleDateString();
+}
 
 export default Comments;

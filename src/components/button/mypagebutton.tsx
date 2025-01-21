@@ -1,23 +1,19 @@
 import { Button } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { CiLogout } from "react-icons/ci";
 
-import supabase from "@/libs/supabase";
-
-export function LogoutButton() {
+export function GoMypageButton() {
   const router = useRouter();
+
   return (
     <>
       <Button
         onClick={() => {
-          supabase.auth.signOut();
-          router.push("/");
+          router.push("/mypage");
         }}
-        leftIcon={<CiLogout />}
         colorScheme="orange"
         color="White"
       >
-        ログアウト
+        マイページ
       </Button>
     </>
   );

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Article } from "@/types/Articles";
-import { TableContainer, Box, VStack } from "@chakra-ui/react";
+import { TableContainer, Box, VStack, TagLabel, Tag } from "@chakra-ui/react";
 import {
   Th,
   Tr,
@@ -19,14 +19,22 @@ import Head from "next/head";
 export default function Articles() {
   const [articles, setArticles] = useState<Article[]>([]);
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(true); // ローディング状態を管理
 
-  async function getArticle() {
+  async function getArticle(tags?: undefined | string[]) {
     try {
-      const url = process.env.NEXT_PUBLIC_API_URL + "/articles";
+      let url = "";
+      if (tags === undefined) {
+        url = `${process.env.NEXT_PUBLIC_API_URL}/articles`;
+      } else {
+        url = `${process.env.NEXT_PUBLIC_API_URL}/articles?tags=${tags.toString()}`;
+      }
       const res = await axios.get(url);
       setArticles(res.data);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -65,7 +73,17 @@ export default function Articles() {
                   {articles.map((res) => (
                     <Tr key={res.id}>
                       <Td>{res.title}</Td>
-                      <Td>{res.tags}</Td>
+                      <Td>
+                        {res.tags.map((tag) => (
+                          <Tag
+                            onClick={() => {
+                              getArticle([tag]);
+                            }}
+                          >
+                            <TagLabel>{tag}</TagLabel>
+                          </Tag>
+                        ))}
+                      </Td>
                       <Td>
                         <Button
                           onClick={() => {

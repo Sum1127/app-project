@@ -57,6 +57,7 @@ const CreateArticle = () => {
         "";
       const user_email: string =
         session?.user.user_metadata["email"] ?? "unknown";
+      const user_id: string = session?.user.id ?? "";
 
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/createarticles`,
@@ -72,6 +73,7 @@ const CreateArticle = () => {
             user_name,
             user_avatar,
             user_email,
+            user_id,
           }),
         }
       );
