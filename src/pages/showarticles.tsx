@@ -60,20 +60,7 @@ export default function ShowArticles({ bookmark, setBookMark }: BookMarkProps) {
   const newTheme = {
     p: (props: ComponentDefaultProps) => {
       const { children } = props;
-      return (
-        <Text
-          // whiteSpace="pre-line"
-          // width="60%"
-          // height="60%"
-          // overflowY="auto"
-          px={4}
-          // border="1px solid"
-          // borderColor="gray.300"
-          // borderRadius="md"
-        >
-          {children}
-        </Text>
-      );
+      return <Text px={4}>{children}</Text>;
     },
     ul: (props: ComponentDefaultProps) => {
       const { children } = props;
@@ -182,9 +169,10 @@ export default function ShowArticles({ bookmark, setBookMark }: BookMarkProps) {
           <ReactMarkdown
             remarkPlugins={[[remarkGfm]]}
             components={ChakraUIRenderer(newTheme)}
-            children={article.content}
             skipHtml
-          />
+          >
+            {article.content}
+          </ReactMarkdown>
         </Box>
         ;
         {/* <Text

@@ -88,7 +88,7 @@ export default function Home() {
                         {res.title}
                         <br />
                         {res.tags.map((tag) => (
-                          <Tag>
+                          <Tag key={tag}>
                             <TagLabel>{tag}</TagLabel>
                           </Tag>
                         ))}

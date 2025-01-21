@@ -76,6 +76,7 @@ export default function Articles() {
                       <Td>
                         {res.tags.map((tag) => (
                           <Tag
+                            key={tag}
                             onClick={() => {
                               getArticle([tag]);
                             }}
