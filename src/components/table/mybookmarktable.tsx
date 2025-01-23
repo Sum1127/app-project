@@ -18,6 +18,7 @@ import {
   Box,
   Tbody,
   Text,
+  Flex,
 } from "@chakra-ui/react";
 
 interface BookMarkTableProps {
@@ -31,8 +32,10 @@ export default function MyBookMarkTable({
 }: BookMarkTableProps) {
   const [session] = useRecoilState<Session | null>(sessionState);
   const router = useRouter();
+  const [isLoading, setisLoading] = useState<boolean>(true);
   async function getMyBookMarkTable() {
     try {
+      setisLoading(true);
       const url = `${process.env.NEXT_PUBLIC_API_URL}/mypage/bookmark`;
       const config = {
         headers: {
@@ -47,6 +50,8 @@ export default function MyBookMarkTable({
       setBookMark(res.data as BookMark[]);
     } catch (err) {
       console.error(err);
+    } finally {
+      setisLoading(false);
     }
   }
   useEffect(() => {
@@ -75,6 +80,22 @@ export default function MyBookMarkTable({
       console.error(err);
     }
   }
+
+  if (isLoading) {
+    return (
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+        bg="orange.100"
+      >
+        <Text fontSize="xl" color="orange.600">
+          読み込み中
+        </Text>
+      </Flex>
+    );
+  }
+
   return (
     <>
       <VStack>

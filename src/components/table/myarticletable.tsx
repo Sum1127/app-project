@@ -15,6 +15,8 @@ import {
   VStack,
   Tbody,
   Button,
+  Flex,
+  Text,
 } from "@chakra-ui/react";
 import { FaRegEdit } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -27,8 +29,10 @@ interface EditArticleProps {
 export default function MyArticleTable(editarticleprops: EditArticleProps) {
   const router = useRouter();
   const [session] = useRecoilState<Session | null>(sessionState);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   async function getArticle() {
     try {
+      setIsLoading(true);
       const url = `${process.env.NEXT_PUBLIC_API_URL}/mypage`;
       const config = {
         headers: {
@@ -43,6 +47,8 @@ export default function MyArticleTable(editarticleprops: EditArticleProps) {
       editarticleprops.setEditArticle(res.data as Article[]);
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -71,6 +77,21 @@ export default function MyArticleTable(editarticleprops: EditArticleProps) {
     } catch (err) {
       console.error(err);
     }
+  }
+
+  if (isLoading) {
+    return (
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+        bg="orange.100"
+      >
+        <Text fontSize="xl" color="orange.600">
+          読み込み中
+        </Text>
+      </Flex>
+    );
   }
 
   return (

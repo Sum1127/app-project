@@ -40,6 +40,21 @@ export default function Home() {
     getArticle();
   }, []);
 
+  if (isLoading) {
+    return (
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+        bg="orange.100"
+      >
+        <Text fontSize="xl" color="orange.600">
+          読み込み中
+        </Text>
+      </Flex>
+    );
+  }
+
   return (
     <>
       <Head>

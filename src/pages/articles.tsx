@@ -11,6 +11,7 @@ import {
   Td,
   Button,
   Flex,
+  Text,
 } from "@chakra-ui/react";
 import Searchbar from "@/components/Searchbar/Searchbar";
 import { useRouter } from "next/router";
@@ -23,6 +24,7 @@ export default function Articles() {
 
   async function getArticle(tags?: undefined | string[]) {
     try {
+      setIsLoading(true);
       let url = "";
       if (tags === undefined) {
         url = `${process.env.NEXT_PUBLIC_API_URL}/articles`;
@@ -41,6 +43,21 @@ export default function Articles() {
   useEffect(() => {
     getArticle();
   }, []);
+
+  if (isLoading) {
+    return (
+      <Flex
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+        bg="orange.100"
+      >
+        <Text fontSize="xl" color="orange.600">
+          読み込み中
+        </Text>
+      </Flex>
+    );
+  }
 
   return (
     <>
